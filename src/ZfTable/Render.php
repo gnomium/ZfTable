@@ -49,9 +49,9 @@ class Render extends AbstractCommon
         return $res;
     }
 
-     /**
+    /**
      * Rendering json for dataTable
-      *
+     *
      * @return string
      */
     public function renderDataTableJson()
@@ -181,6 +181,8 @@ class Render extends AbstractCommon
 
                 if (is_string($params['filters'])) {
                     $element = new \Zend\Form\Element\Text($id);
+                } elseif ($params['filters'] instanceof \Zend\Form\Element) {
+                    $element = $params['filters'];
                 } else {
                     $element = new \Zend\Form\Element\Select($id);
                     $element->setValueOptions($params['filters']);
@@ -195,7 +197,6 @@ class Render extends AbstractCommon
         }
         return sprintf('<tr>%s</tr>', $render);
     }
-
 
 
     /**
@@ -242,7 +243,7 @@ class Render extends AbstractCommon
         $renderer = new PhpRenderer();
 
         $plugins = $renderer->getHelperPluginManager();
-        $config  = new \Zend\Form\View\HelperConfig;
+        $config = new \Zend\Form\View\HelperConfig;
         $config->configureServiceManager($plugins);
 
         $resolver = new Resolver\AggregateResolver();
